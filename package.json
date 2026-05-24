@@ -1,6 +1,6 @@
 {
     "name": "codeless-blog",
-    "version": "1.0.0",
+    "version": "0.1.0",
     "private": true,
     "description": "Full-stack blog and CMS monorepo built with Next.js 16, React 19, Koa 3, Prisma 7, and MeiliSearch.",
     "engines": {
