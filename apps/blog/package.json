@@ -41,7 +41,7 @@
         "@tiptap/react": "3.23.4",
         "@tiptap/starter-kit": "3.23.4",
         "@tiptap-codeless/extension-code-block-pro": "^1.0.0",
-        "mermaid": "^11.12.0",
+        "mermaid": "^11.15.0",
         "@tiptap-codeless/extension-drag-handle": "^1.0.0",
         "@tiptap-codeless/extension-file-upload": "^1.0.0",
         "@emoji-mart/data": "^1.2.1",
