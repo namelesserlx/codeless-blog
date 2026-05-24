@@ -1,0 +1,79 @@
+.sider {
+    background: #fff !important;
+    box-shadow: 2px 0 8px 0 rgba(29, 35, 41, 0.05);
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    .logo {
+        height: 64px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        font-size: 18px;
+        font-weight: bold;
+        color: #1890ff;
+        border-bottom: 1px solid #f0f0f0;
+        margin-bottom: 8px;
+        transition: all 0.3s;
+        .logoImg {
+            width: 32px;
+            height: 32px;
+        }
+    }
+
+    .menu {
+        border-right: none;
+
+        :global(.ant-menu-item) {
+            margin: 4px;
+            border-radius: 6px;
+            height: 40px;
+            line-height: 40px;
+        }
+
+        :global(.ant-menu-submenu) {
+            margin: 4px;
+            .ant-menu-submenu-title {
+                border-radius: 6px;
+                height: 40px;
+                line-height: 40px;
+            }
+        }
+
+        :global(.ant-menu-sub) {
+            background: #fff;
+
+            .ant-menu-item {
+                margin: 2px 16px;
+                padding-left: 32px !important;
+
+                // &:hover {
+                //     background-color: #f0f8ff !important;
+                //     color: #1890ff;
+                // }
+
+                // &.ant-menu-item-selected {
+                //     background-color: #e6f7ff !important;
+                //     color: #1890ff;
+                //     font-weight: 500;
+                // }
+            }
+        }
+
+        :global(.ant-menu-item-icon) {
+            font-size: 16px;
+        }
+    }
+}
+
+// 收起状态下的样式调整
+:global(.ant-layout-sider-collapsed) {
+    .logo {
+        font-size: 16px;
+        .logoImg {
+            width: 28px;
+            height: 28px;
+        }
+    }
+}

@@ -1,0 +1,33 @@
+# Build outputs
+dist
+out
+build
+.turbo
+
+# Dependencies
+node_modules
+
+# Logs
+*.log
+logs
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Cache
+.cache
+.eslintcache
+
+# IDE
+.vscode
+.idea
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Generated files
+*.generated.*
+

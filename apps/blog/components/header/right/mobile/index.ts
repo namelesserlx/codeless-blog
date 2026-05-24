@@ -1,0 +1,1 @@
+export { MobileRight } from './MobileRight';

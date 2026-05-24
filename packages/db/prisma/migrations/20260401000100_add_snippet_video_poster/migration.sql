@@ -1,0 +1,2 @@
+ALTER TABLE `Snippet`
+ADD COLUMN `videoPoster` VARCHAR(191) NULL;

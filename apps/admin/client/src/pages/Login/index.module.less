@@ -1,0 +1,297 @@
+.loginPage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #f3f6fd;
+    overflow: hidden;
+    position: relative;
+}
+
+.loginContainer {
+    display: flex;
+    width: min(90vw, 1000px);
+    height: min(85vh, 650px);
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.1),
+        0 0 0 1px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    position: relative;
+    z-index: 2;
+}
+
+.leftSection {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    position: relative;
+    background: linear-gradient(135deg, #f0f4ff 0%, #e6f4ff 50%, #f6ffed 100%);
+    overflow: hidden;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(24, 144, 255, 0.03) 1px, transparent 1px);
+        background-size: 60px 60px;
+        animation: float 30s ease-in-out infinite;
+        opacity: 0.6;
+    }
+}
+
+@keyframes float {
+    0%,
+    100% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+    33% {
+        transform: translate(20px, -20px) rotate(120deg);
+    }
+    66% {
+        transform: translate(-15px, 15px) rotate(240deg);
+    }
+}
+
+.leftContent {
+    position: relative;
+    text-align: center;
+    padding: 40px 30px;
+    width: 100%;
+    color: #434343;
+}
+
+.logoSection {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    display: flex;
+    align-items: center;
+
+    .logoIcon {
+        width: 32px;
+        height: 32px;
+        margin-right: 10px;
+        img {
+            width: 100%;
+            height: 100%;
+        }
+        &:hover {
+            transform: scale(1.2);
+            transition: transform 0.3s ease;
+        }
+    }
+}
+
+.brand {
+    margin-bottom: 40px;
+
+    h1 {
+        font-size: 36px;
+        font-weight: 700;
+        margin-bottom: 16px;
+        background: linear-gradient(135deg, #87ceea 0%, #4f9cf9 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    p {
+        font-size: 16px;
+        color: rgba(67, 67, 67, 0.75);
+        line-height: 1.6;
+        font-weight: 400;
+    }
+}
+
+.featureList {
+    margin-top: 40px;
+    padding: 0 20px;
+
+    .featureItem {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        margin-bottom: 20px;
+        padding: 16px 20px;
+        border-radius: 12px;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(24, 144, 255, 0.08);
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+        &:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateX(8px);
+            border-color: rgba(24, 144, 255, 0.15);
+            box-shadow: 0 4px 16px rgba(24, 144, 255, 0.08);
+        }
+
+        .featureIcon {
+            font-size: 20px;
+            margin-right: 14px;
+            color: #1890ff;
+            min-width: 20px;
+        }
+
+        .featureText {
+            font-size: 14px;
+            color: #434343;
+            font-weight: 400;
+        }
+    }
+}
+
+.rightSection {
+    width: 420px;
+    padding: 50px 40px 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: #fff;
+}
+
+.loginHeader {
+    text-align: center;
+    margin-bottom: 20px;
+
+    h2 {
+        font-size: 26px;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 8px;
+    }
+
+    p {
+        color: rgba(0, 0, 0, 0.6);
+        font-size: 14px;
+        line-height: 1.5;
+        font-weight: 400;
+    }
+}
+
+.loginForm {
+    .inputField {
+        margin-bottom: 18px;
+        :global(.ant-input-affix-wrapper),
+        :global(.ant-input-password) {
+            height: 46px;
+            padding: 0 16px;
+            border-radius: 8px;
+            border: 1px solid #e1e8f0;
+            background: #fff;
+            transition: all 0.3s ease;
+            font-size: 14px;
+
+            &:focus-within {
+                border-color: #4f9cf9;
+                box-shadow: 0 0 0 2px rgba(79, 156, 249, 0.1);
+            }
+        }
+    }
+
+    .captchaRow {
+        display: flex;
+        gap: 12px;
+
+        .captchaInput {
+            flex: 1;
+        }
+
+        .captchaImage {
+            height: 44px;
+            width: 120px;
+            cursor: pointer;
+            border-radius: 8px;
+            border: 1px solid #e1e8f0;
+            transition: all 0.3s ease;
+            object-fit: cover;
+            &:hover {
+                border-color: #87ceea;
+                box-shadow: 0 2px 8px rgba(135, 206, 234, 0.15);
+            }
+        }
+    }
+
+    .loginButton {
+        width: 100%;
+        height: 46px;
+        font-size: 15px;
+        font-weight: 500;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        margin-top: 8px;
+        &:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+    }
+}
+
+.divider {
+    :global(.ant-divider-inner-text) {
+        color: rgba(0, 0, 0, 0.45);
+        font-size: 13px;
+        font-weight: 400;
+    }
+}
+
+.socialLogin {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    .socialButton {
+        height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #fff;
+        border: 1px solid #e1e8f0;
+        border-radius: 8px;
+        font-weight: 400;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        &:hover {
+            background: #f8f9fa;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .socialIcon {
+            font-size: 16px;
+            margin-right: 8px;
+        }
+    }
+}
+
+.footer {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    text-align: center;
+    color: rgba(0, 0, 0, 0.5);
+    font-size: 13px;
+    font-weight: 400;
+
+    .beianLink {
+        color: inherit;
+        text-decoration: none;
+        transition: color 0.2s ease;
+
+        &:hover {
+            color: #1677ff;
+            text-decoration: underline;
+        }
+    }
+}

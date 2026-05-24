@@ -1,0 +1,42 @@
+# Build outputs
+.next
+.turbo
+dist
+out
+build
+
+# Dependencies
+node_modules
+.pnpm-store
+
+# Logs
+*.log
+logs
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Cache
+.cache
+.eslintcache
+
+# IDE
+.vscode
+.idea
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Generated files
+*.generated.*
+*.tsbuildinfo
+
+# Monorepo
+.turbo
+
+# Prisma
+packages/db/prisma/migrations
+

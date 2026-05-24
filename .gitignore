@@ -1,0 +1,89 @@
+# 依赖相关
+node_modules
+.pnp
+.pnp.js
+.pnpm-store/
+
+# 构建输出
+dist
+build
+.next
+out
+.output
+.jenkins/
+
+# 测试相关
+coverage
+.nyc_output
+
+# 环境变量和本地配置
+.local
+.env
+.env.local
+.env.development
+.env.staging
+.env.production
+# 各个apps的env（使用通配符覆盖所有子目录）
+**/.env
+**/.env.local
+**/.env.development
+**/.env.staging
+**/.env.production
+
+# 编辑器相关
+.idea
+.cursor/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+*.code-workspace
+.project
+.classpath
+*.sublime-workspace
+*.sublime-project
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# 日志
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# 缓存
+.eslintcache
+.stylelintcache
+.npm
+.temp
+.cache
+.parcel-cache
+
+# Prisma相关
+packages/db/prisma/dev.db
+packages/db/prisma/dev.db-journal
+packages/db/.env
+packages/db/generated
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# Turbo
+.turbo
+
+# Jenkins 部署文件
+# 公开环境变量（*.public.env）允许入库；敏感文件只允许存在于本地或 Jenkins Credentials
+deploy/jenkins/**/*.secret.env
+deploy/jenkins/**/*-staging.env
+deploy/jenkins/**/*-prod.env
+deploy/jenkins/**/*-production.env
+deploy/jenkins/**/*.runtime.env
+deploy/jenkins/**/*.rollback.env

@@ -1,0 +1,635 @@
+[
+    {
+        "title": "使用 Next.js 和 Prisma 构建博客",
+        "summary": "从路由、数据模型、服务端渲染和部署链路出发，梳理一个现代博客系统的核心搭建思路。",
+        "content": {
+            "type": "doc",
+            "content": [
+                {
+                    "type": "heading",
+                    "attrs": {
+                        "level": 1
+                    },
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": "使用 Next.js 和 Prisma 构建博客"
+                        }
+                    ]
+                },
+                {
+                    "type": "paragraph",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": "Next.js 适合承担博客前台的页面渲染、SEO、缓存和 API Route。Prisma 则负责把数据库模型、迁移和类型安全查询连接起来。"
+                        }
+                    ]
+                },
+                {
+                    "type": "heading",
+                    "attrs": {
+                        "level": 2
+                    },
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": "架构拆分"
+                        }
+                    ]
+                },
+                {
+                    "type": "bulletList",
+                    "content": [
+                        {
+                            "type": "listItem",
+                            "content": [
+                                {
+                                    "type": "paragraph",
+                                    "content": [
+                                        {
+                                            "type": "text",
+                                            "text": "前台负责公开内容展示、搜索入口和互动上报。"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "type": "listItem",
+                            "content": [
+                                {
+                                    "type": "paragraph",
+                                    "content": [
+                                        {
+                                            "type": "text",
+                                            "text": "后台负责内容管理、权限控制、统计看板和发布流程。"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "type": "listItem",
+                            "content": [
+                                {
+                                    "type": "paragraph",
+                                    "content": [
+                                        {
+                                            "type": "text",
+                                            "text": "数据库包统一提供 Prisma Client，避免多端重复维护数据访问逻辑。"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "heading",
+                    "attrs": {
+                        "level": 2
+                    },
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": "实践重点"
+                        }
+                    ]
+                },
+                {
+                    "type": "orderedList",
+                    "attrs": {
+                        "start": 1
+                    },
+                    "content": [
+                        {
+                            "type": "listItem",
+                            "content": [
+                                {
+                                    "type": "paragraph",
+                                    "content": [
+                                        {
+                                            "type": "text",
+                                            "text": "使用 Server Component 读取公开内容，保证首屏 HTML 完整。"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "type": "listItem",
+                            "content": [
+                                {
+                                    "type": "paragraph",
+                                    "content": [
+                                        {
+                                            "type": "text",
+                                            "text": "使用 ISR 缓存首页、列表页和详情页，兼顾 SEO 与刷新成本。"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "type": "listItem",
+                            "content": [
+                                {
+                                    "type": "paragraph",
+                                    "content": [
+                                        {
+                                            "type": "text",
+                                            "text": "使用 Redis 承接浏览、点赞和阅读时长的高频写入。"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "type": "listItem",
+                            "content": [
+                                {
+                                    "type": "paragraph",
+                                    "content": [
+                                        {
+                                            "type": "text",
+                                            "text": "使用 MySQL 保存稳定的内容、评论和历史统计。"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "paragraph",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": "这套结构的核心不是堆技术，而是把读写路径拆清楚，让每一层只承担它最擅长的职责。"
+                        }
+                    ]
+                }
+            ]
+        },
+        "author": "admin",
+        "tags": ["技术", "React", "Next.js", "Prisma"],
+        "cardType": "LARGE_IMAGE",
+        "cardImageUrl": "https://images.unsplash.com/photo-1498050108023-c5249f4df0852?auto=format&fit=crop&w=1400&q=80",
+        "createdAt": {
+            "daysAgo": 2,
+            "hour": 9
+        }
+    },
+    {
+        "title": "RBAC 权限系统设计与实现",
+        "summary": "围绕用户、角色、权限和菜单资源建模，整理后台权限系统从数据结构到页面控制的完整链路。",
+        "content": {
+            "type": "doc",
+            "content": [
+                {
+                    "type": "heading",
+                    "attrs": {
+                        "level": 1
+                    },
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": "RBAC 权限系统设计与实现"
+                        }
+                    ]
+                },
+                {
+                    "type": "paragraph",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": "RBAC 的关键是把“人拥有什么能力”拆成用户、角色、权限三层。用户不直接绑定权限，而是通过角色继承一组能力。"
+                        }
+                    ]
+                },
+                {
+                    "type": "heading",
+                    "attrs": {
+                        "level": 2
+                    },
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": "核心模型"
+                        }
+                    ]
+                },
+                {
+                    "type": "bulletList",
+                    "content": [
+                        {
+                            "type": "listItem",
+                            "content": [
+                                {
+                                    "type": "paragraph",
+                                    "content": [
+                                        {
+                                            "type": "text",
+                                            "text": "用户：系统中的实际操作人。"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "type": "listItem",
+                            "content": [
+                                {
+                                    "type": "paragraph",
+                                    "content": [
+                                        {
+                                            "type": "text",
+                                            "text": "角色：权限集合，表达岗位或职责。"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "type": "listItem",
+                            "content": [
+                                {
+                                    "type": "paragraph",
+                                    "content": [
+                                        {
+                                            "type": "text",
+                                            "text": "权限：对资源的访问许可，可以细分到菜单、按钮和接口。"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "heading",
+                    "attrs": {
+                        "level": 2
+                    },
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": "工程落地"
+                        }
+                    ]
+                },
+                {
+                    "type": "orderedList",
+                    "attrs": {
+                        "start": 1
+                    },
+                    "content": [
+                        {
+                            "type": "listItem",
+                            "content": [
+                                {
+                                    "type": "paragraph",
+                                    "content": [
+                                        {
+                                            "type": "text",
+                                            "text": "后端统一校验接口权限，避免只靠前端隐藏按钮。"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "type": "listItem",
+                            "content": [
+                                {
+                                    "type": "paragraph",
+                                    "content": [
+                                        {
+                                            "type": "text",
+                                            "text": "前端根据菜单权限动态生成路由。"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "type": "listItem",
+                            "content": [
+                                {
+                                    "type": "paragraph",
+                                    "content": [
+                                        {
+                                            "type": "text",
+                                            "text": "按钮权限只控制体验，不能替代服务端鉴权。"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "type": "listItem",
+                            "content": [
+                                {
+                                    "type": "paragraph",
+                                    "content": [
+                                        {
+                                            "type": "text",
+                                            "text": "权限变更需要保证用户会话和缓存能及时更新。"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "paragraph",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": "好的权限系统不是越复杂越好，而是边界清晰、默认安全、容易排查。"
+                        }
+                    ]
+                }
+            ]
+        },
+        "author": "superAdmin",
+        "tags": ["技术", "MySQL", "工程化"],
+        "cardType": "SMALL_IMAGE",
+        "cardImageUrl": "https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=1200&q=80",
+        "createdAt": {
+            "daysAgo": 5,
+            "hour": 14
+        }
+    },
+    {
+        "title": "Docker 一键部署博客系统的实践记录",
+        "summary": "记录从 Jenkins、Docker 镜像、环境变量、回滚目录到健康检查的一次完整 staging 部署梳理。",
+        "content": {
+            "type": "doc",
+            "content": [
+                {
+                    "type": "heading",
+                    "attrs": {
+                        "level": 1
+                    },
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": "Docker 一键部署博客系统的实践记录"
+                        }
+                    ]
+                },
+                {
+                    "type": "paragraph",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": "一键部署的目标不是把所有命令塞进一个脚本，而是把发布流程拆成可观察、可回滚、可重复执行的阶段。"
+                        }
+                    ]
+                },
+                {
+                    "type": "heading",
+                    "attrs": {
+                        "level": 2
+                    },
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": "发布步骤"
+                        }
+                    ]
+                },
+                {
+                    "type": "orderedList",
+                    "attrs": {
+                        "start": 1
+                    },
+                    "content": [
+                        {
+                            "type": "listItem",
+                            "content": [
+                                {
+                                    "type": "paragraph",
+                                    "content": [
+                                        {
+                                            "type": "text",
+                                            "text": "打包源码，避免工作区脏文件进入发布产物。"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "type": "listItem",
+                            "content": [
+                                {
+                                    "type": "paragraph",
+                                    "content": [
+                                        {
+                                            "type": "text",
+                                            "text": "上传公开环境变量和敏感凭证文件。"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "type": "listItem",
+                            "content": [
+                                {
+                                    "type": "paragraph",
+                                    "content": [
+                                        {
+                                            "type": "text",
+                                            "text": "在远端构建镜像，并记录镜像标签。"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "type": "listItem",
+                            "content": [
+                                {
+                                    "type": "paragraph",
+                                    "content": [
+                                        {
+                                            "type": "text",
+                                            "text": "用 env-file 启动容器，保留回滚信息。"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "type": "listItem",
+                            "content": [
+                                {
+                                    "type": "paragraph",
+                                    "content": [
+                                        {
+                                            "type": "text",
+                                            "text": "健康检查通过后再清理旧产物。"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "heading",
+                    "attrs": {
+                        "level": 2
+                    },
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": "关键经验"
+                        }
+                    ]
+                },
+                {
+                    "type": "paragraph",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": "环境变量要区分公开变量、服务端敏感变量和构建期变量。静态页面如果在构建期读取数据，就必须保证构建阶段也能拿到对应配置。"
+                        }
+                    ]
+                }
+            ]
+        },
+        "author": "admin",
+        "tags": ["Docker", "工程化", "学习笔记"],
+        "cardType": "LARGE_IMAGE",
+        "cardImageUrl": "https://images.unsplash.com/photo-1605745341112-85968b19335b?auto=format&fit=crop&w=1400&q=80",
+        "createdAt": {
+            "daysAgo": 8,
+            "hour": 11
+        }
+    },
+    {
+        "title": "前台性能优化：从首屏到交互的取舍",
+        "summary": "围绕图片加载、组件拆分、缓存策略和交互上报，梳理博客前台性能优化的几个关键判断。",
+        "content": {
+            "type": "doc",
+            "content": [
+                {
+                    "type": "heading",
+                    "attrs": {
+                        "level": 1
+                    },
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": "前台性能优化：从首屏到交互的取舍"
+                        }
+                    ]
+                },
+                {
+                    "type": "paragraph",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": "性能优化不是盲目减少代码，而是让关键内容更快出现，让非关键交互更晚、更轻地加载。"
+                        }
+                    ]
+                },
+                {
+                    "type": "heading",
+                    "attrs": {
+                        "level": 2
+                    },
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": "优化方向"
+                        }
+                    ]
+                },
+                {
+                    "type": "bulletList",
+                    "content": [
+                        {
+                            "type": "listItem",
+                            "content": [
+                                {
+                                    "type": "paragraph",
+                                    "content": [
+                                        {
+                                            "type": "text",
+                                            "text": "首屏内容使用服务端渲染，保证 SEO 和可读性。"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "type": "listItem",
+                            "content": [
+                                {
+                                    "type": "paragraph",
+                                    "content": [
+                                        {
+                                            "type": "text",
+                                            "text": "图片使用明确尺寸、懒加载和远程域名白名单。"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "type": "listItem",
+                            "content": [
+                                {
+                                    "type": "paragraph",
+                                    "content": [
+                                        {
+                                            "type": "text",
+                                            "text": "搜索、弹窗、相册预览等功能按需加载。"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "type": "listItem",
+                            "content": [
+                                {
+                                    "type": "paragraph",
+                                    "content": [
+                                        {
+                                            "type": "text",
+                                            "text": "浏览、点赞、阅读时长等高频行为先写 Redis，再异步同步 MySQL。"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "paragraph",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": "当页面既要好看又要快，最重要的是明确“首屏必须出现什么”和“哪些内容可以延后”。"
+                        }
+                    ]
+                }
+            ]
+        },
+        "author": "admin",
+        "tags": ["性能优化", "React", "Next.js"],
+        "cardType": "SMALL_IMAGE",
+        "cardImageUrl": "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1200&q=80",
+        "createdAt": {
+            "daysAgo": 12,
+            "hour": 16
+        }
+    }
+]

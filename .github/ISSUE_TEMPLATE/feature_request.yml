@@ -1,0 +1,33 @@
+name: Feature request
+description: Propose an enhancement or new capability
+title: '[Feature]: '
+labels:
+    - enhancement
+    - needs-triage
+body:
+    - type: textarea
+      id: problem
+      attributes:
+          label: Problem or opportunity
+          description: What use case is not well supported today?
+          placeholder: I want to ...
+      validations:
+          required: true
+    - type: textarea
+      id: proposal
+      attributes:
+          label: Proposed solution
+          description: Describe the expected behavior or API.
+          placeholder: It would be helpful if ...
+      validations:
+          required: true
+    - type: textarea
+      id: alternatives
+      attributes:
+          label: Alternatives considered
+          description: Share workarounds or related approaches you evaluated.
+    - type: textarea
+      id: additional-context
+      attributes:
+          label: Additional context
+          description: Screenshots, references, or related issues.

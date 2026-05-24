@@ -1,0 +1,602 @@
+.pageShell {
+    width: 100%;
+    min-height: calc(100vh - 24px);
+    padding: 24px;
+    border-radius: 8px;
+    background:
+        radial-gradient(circle at top right, rgba(191, 219, 254, 0.35), transparent 22%),
+        radial-gradient(circle at left bottom, rgba(16, 185, 129, 0.12), transparent 24%), #ffffff;
+    box-sizing: border-box;
+}
+
+.pageContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.heroCard,
+.filterCard,
+.panel {
+    border: 1px solid #edf1f7;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.94);
+    box-shadow:
+        0 18px 40px -32px rgba(15, 23, 42, 0.35),
+        0 12px 20px -18px rgba(37, 99, 235, 0.15);
+}
+
+.heroCard {
+    padding: 24px 24px 20px;
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+.heroEyebrow {
+    display: inline-flex;
+    align-items: center;
+    min-height: 28px;
+    padding: 0 12px;
+    border-radius: 999px;
+    background: #eef4ff;
+    color: #2563eb;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.heroTitle {
+    margin: 14px 0 8px;
+    font-size: 30px;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    color: #0f172a;
+}
+
+.heroDescription {
+    max-width: 780px;
+    margin: 0;
+    color: #475569;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+.heroActions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.filterCard,
+.panel {
+    padding: 20px;
+}
+
+.filterHeader,
+.panelHeader {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    align-items: flex-start;
+}
+
+.sectionTitle {
+    color: #0f172a;
+    font-size: 18px;
+    line-height: 1.35;
+    font-weight: 600;
+}
+
+.sectionHint {
+    margin-top: 4px;
+    color: #64748b;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.presetButton {
+    height: 34px;
+    padding: 0 14px;
+    border: 1px solid #dbe5f3;
+    border-radius: 10px;
+    background: #f8fafc;
+    color: #475569;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.presetButton:hover {
+    border-color: #93c5fd;
+    color: #1d4ed8;
+}
+
+.presetButtonActive {
+    border-color: #93c5fd;
+    background: #eff6ff;
+    color: #1d4ed8;
+    box-shadow: inset 0 0 0 1px rgba(147, 197, 253, 0.45);
+}
+
+.filterForm {
+    margin-top: 18px;
+}
+
+.filterRow {
+    row-gap: 0;
+}
+
+.filterItemLabel {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #475569;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.filterField {
+    margin-bottom: 0;
+}
+
+.filterField :global(.ant-form-item-label) {
+    padding-bottom: 8px;
+}
+
+.filterField :global(.ant-form-item-control-input),
+.filterField :global(.ant-form-item-control-input-content) {
+    min-height: 0;
+}
+
+.filterControl {
+    width: 100%;
+}
+
+.panelActionGroup {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+}
+
+.panelActionLabel {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #475569;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.metricsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 14px;
+}
+
+.metricCard {
+    min-height: 148px;
+    padding: 18px 18px 16px;
+    border-radius: 18px;
+    border: 1px solid #edf1f7;
+    background: linear-gradient(180deg, rgba(248, 250, 252, 0.95), rgba(255, 255, 255, 1)), #ffffff;
+    box-shadow:
+        0 1px 2px rgba(15, 23, 42, 0.04),
+        0 14px 24px -24px rgba(15, 23, 42, 0.35);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.metricTop {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.metricLabel {
+    color: #64748b;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.metricValue {
+    margin-top: 6px;
+    color: #0f172a;
+    font-size: 28px;
+    line-height: 1.15;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+}
+
+.metricIcon {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    color: #ffffff;
+    font-size: 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.metricBottom {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.deltaTextUp,
+.deltaTextDown,
+.deltaTextFlat {
+    width: fit-content;
+    min-height: 24px;
+    padding: 0 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    line-height: 24px;
+    font-weight: 600;
+}
+
+.deltaTextUp {
+    background: #ecfdf3;
+    color: #15803d;
+}
+
+.deltaTextDown {
+    background: #fff1f2;
+    color: #e11d48;
+}
+
+.deltaTextFlat {
+    background: #f1f5f9;
+    color: #64748b;
+}
+
+.metricHint {
+    color: #64748b;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.chartWrap {
+    margin-top: 8px;
+    min-height: 320px;
+}
+
+.chartLoading {
+    height: 320px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.chart {
+    width: 100%;
+    height: 320px;
+}
+
+.tableWrap {
+    margin-top: 10px;
+}
+
+.tableWrap :global(.ant-table) {
+    background: transparent;
+}
+
+.tableWrap :global(.ant-table-thead > tr > th) {
+    background: #f8fafc;
+    color: #475569;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.tableWrap :global(.ant-table-tbody > tr > td) {
+    background: #ffffff;
+    border-bottom-color: #eef2f7;
+}
+
+.tableRow,
+.selectedRow {
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.selectedRow :global(td) {
+    background: #edf5ff !important;
+    border-bottom-color: #d6e4ff !important;
+    box-shadow:
+        inset 0 1px 0 rgba(22, 119, 255, 0.12),
+        inset 0 -1px 0 rgba(22, 119, 255, 0.12);
+}
+
+.selectedRow :global(td:first-child) {
+    box-shadow:
+        inset 4px 0 0 #1677ff,
+        inset 0 1px 0 rgba(22, 119, 255, 0.12),
+        inset 0 -1px 0 rgba(22, 119, 255, 0.12);
+}
+
+.selectedRow .articleTitle,
+.selectedRow .metaAuthor {
+    color: #1677ff;
+}
+
+.articleCell {
+    display: flex;
+    align-items: flex-start;
+}
+
+.articleTitle {
+    color: #0f172a;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.5;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.articleSummary {
+    margin-top: 4px;
+    color: #64748b;
+    font-size: 12px;
+    line-height: 1.6;
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+.metaCell {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.metaAuthor {
+    color: #0f172a;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.tagList,
+.inlineTags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.tagList {
+    max-height: 58px;
+    overflow: hidden;
+}
+
+.softTag {
+    border-radius: 999px;
+    background: #f1f5f9 !important;
+    color: #475569 !important;
+}
+
+.deltaCell {
+    display: inline-flex;
+}
+
+.deltaBadgePositive,
+.deltaBadgeNegative,
+.deltaBadgeNeutral {
+    min-height: 28px;
+    padding: 0 10px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.deltaBadgePositive {
+    background: #ecfdf3;
+    color: #15803d;
+}
+
+.deltaBadgeNegative {
+    background: #fff1f2;
+    color: #e11d48;
+}
+
+.deltaBadgeNeutral {
+    background: #f1f5f9;
+    color: #64748b;
+}
+
+.tableLoadState {
+    min-height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tableLoadText {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #64748b;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.selectedHero {
+    margin-top: 6px;
+    padding: 16px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #f8fafc, #eff6ff);
+    border: 1px solid #e2e8f0;
+}
+
+.selectedIdentity {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+}
+
+.selectedBadge {
+    width: 52px;
+    height: 52px;
+    border-radius: 16px;
+    background: #e6f4ff;
+    color: #0ea5e9;
+    border: 1px solid #bae0ff;
+    font-size: 20px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.selectedTitle {
+    color: #0f172a;
+    font-size: 18px;
+    line-height: 1.35;
+    font-weight: 700;
+}
+
+.selectedMeta {
+    margin-top: 6px;
+    color: #64748b;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.selectedStats {
+    margin-top: 16px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 12px;
+}
+
+.selectedStat {
+    padding: 14px;
+    border-radius: 14px;
+    background: #ffffff;
+    border: 1px solid #e5edf7;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.selectedStatLabel {
+    color: #64748b;
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+.selectedStat strong {
+    color: #0f172a;
+    font-size: 20px;
+    line-height: 1.2;
+}
+
+.chartLegendHints {
+    margin-top: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.chartLegendItem {
+    min-width: 72px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    text-align: center;
+}
+
+.chartLegendDot {
+    display: inline-flex;
+    flex-shrink: 0;
+}
+
+.chartLegendDot {
+    width: 12px;
+    height: 12px;
+    border-radius: 999px;
+    box-shadow: 0 0 0 4px rgba(15, 23, 42, 0.04);
+}
+
+.chartLegendLabel {
+    color: #64748b;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+@media (max-width: 1280px) {
+    .filterItem {
+        grid-column: span 3;
+    }
+
+    .filterItemWide {
+        grid-column: span 6;
+    }
+}
+
+@media (max-width: 992px) {
+    .pageShell {
+        padding: 16px;
+    }
+
+    .heroCard,
+    .filterHeader,
+    .panelHeader {
+        grid-template-columns: 1fr;
+        display: grid;
+    }
+
+    .heroCard {
+        gap: 16px;
+    }
+
+    .heroActions {
+        justify-content: flex-start;
+    }
+
+    .panelActionGroup {
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 640px) {
+    .pageShell {
+        padding: 12px;
+    }
+
+    .heroTitle {
+        font-size: 24px;
+    }
+
+    .filterGrid,
+    .metricsGrid,
+    .selectedStats {
+        grid-template-columns: 1fr;
+    }
+
+    .chart,
+    .chartWrap {
+        min-height: 260px;
+        height: 260px;
+        margin-top: 5px;
+    }
+
+    .selectedIdentity {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}

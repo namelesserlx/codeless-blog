@@ -1,0 +1,172 @@
+.container {
+    display: flex;
+    gap: 16px;
+    height: 100%;
+}
+
+.roleList {
+    width: 320px;
+    height: 100%;
+    flex-shrink: 0;
+
+    .searchBox {
+        margin-bottom: 16px;
+    }
+
+    .listItem {
+        cursor: pointer;
+        transition: all 0.2s;
+        border-radius: 8px;
+        margin-bottom: 8px;
+
+        &:hover {
+            background-color: #f5f5f5;
+        }
+
+        &.selected {
+            background-color: #e6f7ff;
+            border-left: 4px solid #1890ff;
+        }
+
+        .avatar {
+            transition: background-color 0.2s;
+        }
+
+        .meta {
+            .title {
+                font-weight: 500;
+                color: #262626;
+            }
+
+            .description {
+                color: #8c8c8c;
+                font-size: 12px;
+
+                .code {
+                    margin-bottom: 4px;
+                }
+
+                .desc {
+                    margin-top: 4px;
+                    font-size: 11px;
+                }
+            }
+        }
+
+        .actions {
+            .actionBtn {
+                color: #8c8c8c;
+
+                &:hover {
+                    color: #1890ff;
+                }
+
+                &.danger:hover {
+                    color: #ff4d4f;
+                }
+            }
+        }
+    }
+}
+
+.permissionPanel {
+    flex: 1;
+
+    .tabsWrapper {
+        :global(.ant-tabs-tab) {
+            font-weight: 500;
+        }
+    }
+
+    .toolbar {
+        margin-bottom: 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .toolbarLeft {
+            display: flex;
+            gap: 8px;
+        }
+
+        .toolbarRight {
+            display: flex;
+            gap: 8px;
+        }
+    }
+
+    .permissionTable {
+        :global(.ant-table-thead > tr > th) {
+            background-color: #fafafa;
+            font-weight: 600;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        :global(.ant-table-tbody > tr:hover > td) {
+            background-color: #f5f5f5;
+        }
+
+        :global(.ant-table-row) {
+            cursor: pointer;
+        }
+
+        .menuCell {
+            display: flex;
+            align-items: center;
+
+            .indent {
+                display: inline-block;
+                margin-right: 4px;
+            }
+
+            .expandBtn {
+                width: 24px;
+                height: 24px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-right: 8px;
+                color: #8c8c8c;
+
+                &:hover {
+                    color: #1890ff;
+                }
+            }
+
+            .checkbox {
+                margin-right: 8px;
+            }
+
+            .menuIcon {
+                margin-right: 8px;
+                font-size: 16px;
+
+                &.folder {
+                    color: #1890ff;
+                }
+
+                &.file {
+                    color: #52c41a;
+                }
+            }
+
+            .menuName {
+                font-weight: 500;
+            }
+        }
+
+        .permissionCell {
+            .permissionTags {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 4px;
+            }
+        }
+    }
+}
+
+.emptyState {
+    text-align: center;
+    padding: 40px;
+    color: #8c8c8c;
+}

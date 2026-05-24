@@ -1,0 +1,405 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider     = "prisma-client"
+  output       = "../generated/prisma"
+  moduleFormat = "cjs"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+// 用户状态枚举
+enum UserStatus {
+  ACTIVE    // 激活
+  INACTIVE  // 未激活
+  BANNED    // 禁用
+  DELETED   // 已删除
+}
+
+// 角色状态枚举
+enum RoleStatus {
+  ACTIVE   // 激活
+  INACTIVE // 禁用
+}
+
+// 权限类型枚举
+enum PermissionType {
+  DIRECTORY // 目录权限
+  MENU     // 菜单权限
+  BUTTON   // 按钮权限
+}
+
+// 权限状态枚举
+enum PermissionStatus {
+  ACTIVE   // 激活
+  INACTIVE // 禁用
+}
+
+model User {
+  id           Int       @id @default(autoincrement()) // 使用自增ID，查询频繁，性能优先
+  email        String    @unique   // 邮箱
+  username     String    @unique   // 用户名
+  nickname     String?   // 昵称
+  password     String    // 密码
+  address      String?   // 用户地址
+  avatar       String?   // 用户头像
+  bio          String?   // 用户简介
+  phone        String?   // 用户手机号
+  githubId     String?   // GitHub ID
+  googleId     String?   // Google ID
+  status       UserStatus @default(ACTIVE) // 用户状态
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  posts        Post[]    // 文章
+  snippets     Snippet[] // 片段
+  comments     Comment[] @relation("CommentAuthor") // 评论
+  receivedComments Comment[] @relation("CommentReceiver") // 接收的评论
+  commentLikes CommentLike[] // 评论点赞
+  
+  // RBAC 关联
+  userRoles    UserRole[] // 用户角色
+}
+
+// 角色表
+model Role {
+  id          Int       @id @default(autoincrement()) // 使用自增ID，系统表，查询频繁
+  name        String    @unique // 角色名称
+  code        String    @unique // 角色代码
+  description String?   // 角色描述
+  level       Int       @default(0) // 角色级别，数字越小权限越大
+  status      RoleStatus @default(ACTIVE) // 角色状态
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  
+  // 角色层级关系
+  parentId    Int?      // 父角色ID
+  parent      Role?     @relation("RoleHierarchy", fields: [parentId], references: [id])
+  children    Role[]    @relation("RoleHierarchy")
+  
+  // 关联关系
+  userRoles       UserRole[]      // 用户角色
+  rolePermissions RolePermission[] // 角色权限
+  
+  @@index([parentId])
+  @@index([level])
+}
+
+// 权限表
+model Permission {
+  id          Int            @id @default(autoincrement()) // 使用自增ID，系统表，查询频繁
+  name        String         // 权限名称
+  code        String         @unique // 权限代码
+  type        PermissionType // 权限类型
+  resource    String?        // 资源标识
+  action      String?        // 操作类型（如：read, write, delete）
+  path        String?        // 菜单路径
+  component   String?        // 组件路径
+  icon        String?        // 图标
+  sort        Int            @default(0) // 排序
+  status      PermissionStatus @default(ACTIVE) // 权限状态
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  
+  // 权限层级关系（支持树形结构）
+  parentId    Int?           // 父权限ID
+  parent      Permission?    @relation("PermissionHierarchy", fields: [parentId], references: [id])
+  children    Permission[]   @relation("PermissionHierarchy")
+  
+  // 关联关系
+  rolePermissions RolePermission[]
+  
+  @@index([parentId])
+  @@index([type])
+  @@index([sort])
+}
+
+// 用户角色关联表（多对多）
+model UserRole {
+  id        Int      @id @default(autoincrement()) // 使用自增ID，关联表，简单高效
+  userId    Int
+  roleId    Int
+  createdAt DateTime @default(now())
+  
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role      Role     @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  
+  @@unique([userId, roleId])
+  @@index([userId])
+  @@index([roleId])
+}
+
+// 角色权限关联表（多对多）
+model RolePermission {
+  id           Int        @id @default(autoincrement()) // 使用自增ID，关联表，简单高效
+  roleId       Int
+  permissionId Int
+  createdAt    DateTime   @default(now())
+  
+  role         Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+  
+  @@unique([roleId, permissionId])
+  @@index([roleId])
+  @@index([permissionId])
+}
+
+// 添加卡片类型枚举
+enum CardType {
+  LARGE_IMAGE  // 大头图卡片
+  SMALL_IMAGE  // 小头图卡片
+}
+
+// 文章
+model Post {
+  id               String    @id @default(cuid()) // 使用CUID，内容表，需要全局唯一性和安全性
+  title            String    // 文章标题
+  content          String    @db.LongText // 文章内容
+  summary          String?   @db.Text // 文章摘要/简介
+  published        Boolean   @default(false)  // 上下架状态
+  isDraft          Boolean   @default(true)   // 是否为草稿(暂存)
+  allowComments    Boolean   @default(true)   // 是否允许评论
+  cardType         CardType  @default(LARGE_IMAGE) // 卡片类型：大头图或小头图
+  cardImageUrl     String?   // 卡片图片链接
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  author           User      @relation(fields: [authorId], references: [id])
+  authorId         Int       // 改为Int类型
+  tags             Tag[]
+  comments         Comment[]
+
+  // 匿名访问/点赞/阅读时长统计关联
+  likes            PostLike[]
+  views            PostViewDaily[]
+  readTimes        PostReadTime[]
+}
+
+// 片段
+model Snippet {
+  id               String    @id @default(cuid()) // 使用CUID，内容表，需要全局唯一性和安全性
+  title            String?
+  content          String    @db.LongText
+  published        Boolean   @default(false)  // 上下架状态
+  isDraft          Boolean   @default(true)   // 是否为草稿(暂存)
+  allowComments    Boolean   @default(true)   // 是否允许评论
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  author           User      @relation(fields: [authorId], references: [id])
+  authorId         Int       // 改为Int类型
+  images           String?  @db.Text // 图片
+  video            String?   // 视频
+  videoPoster      String?   // 视频封面
+  comments         Comment[]
+
+  // 匿名访问/点赞/阅读时长统计关联（片段）
+  likes            SnippetLike[]
+  views            SnippetViewDaily[]
+  readTimes        SnippetReadTime[]
+}
+
+// 标签
+model Tag {
+  id        Int       @id @default(autoincrement()) // 使用自增ID，简单表，查询频繁
+  name      String    @unique
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  posts     Post[]
+}
+
+// 评论
+model Comment {
+  id               Int       @id @default(autoincrement()) // 使用自增ID，数量大，查询频繁
+  content          String    @db.Text
+  isAuthorComment  Boolean   @default(false)  // 是否是作者的评论
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  status           CommentStatus @default(PUBLISHED) // 评论状态
+  
+  // 扩展字段
+  ipAddress        String?   // IP地址
+  userAgent        String?   // 用户代理
+  location         String?   // 地理位置（可以通过IP解析）
+  device           String?   // 设备信息
+  likeCount        Int       @default(0) // 点赞数
+  isEdited         Boolean   @default(false) // 是否已编辑
+  editedAt         DateTime? // 编辑时间
+  
+  // 评论作者
+  author           User      @relation("CommentAuthor", fields: [authorId], references: [id])
+  authorId         Int       // 改为Int类型
+  
+  // 评论接收者（被回复的用户）
+  receiver         User?     @relation("CommentReceiver", fields: [receiverId], references: [id])
+  receiverId       Int?      // 改为Int类型
+
+  // 评论可能属于博客或片段
+  post             Post?     @relation(fields: [postId], references: [id])
+  postId           String?   // 保持String类型，对应Post的cuid
+  
+  snippet          Snippet?  @relation(fields: [snippetId], references: [id])
+  snippetId        String?   // 保持String类型，对应Snippet的cuid
+  
+  // 父评论（支持嵌套回复）
+  parentComment    Comment?  @relation("CommentReplies", fields: [parentId], references: [id])
+  parentId         Int?      // 改为Int类型
+  
+  // 子评论（回复）
+  replies          Comment[] @relation("CommentReplies")
+  
+  // 点赞关联
+  likes            CommentLike[]
+
+  @@index([postId])
+  @@index([snippetId])
+  @@index([parentId])
+  @@index([authorId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+// 评论点赞表
+model CommentLike {
+  id        Int       @id @default(autoincrement())
+  commentId Int
+  userId    Int
+  createdAt DateTime  @default(now())
+  
+  comment   Comment   @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@unique([commentId, userId])
+  @@index([commentId])
+  @@index([userId])
+}
+
+// 文章点赞记录（匿名访客）
+model PostLike {
+  id         Int      @id @default(autoincrement())
+  postId     String
+  visitorId  String
+  createdAt  DateTime @default(now())
+
+  post       Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@unique([postId, visitorId])
+  @@index([postId])
+  @@index([visitorId])
+}
+
+// 文章每日唯一浏览（UV）：每访客对同一文章每天只记一次
+model PostViewDaily {
+  id         Int      @id @default(autoincrement())
+  postId     String
+  visitorId  String
+  viewedAt   DateTime // 仅日期粒度，入库时建议置为当天 00:00:00
+  createdAt  DateTime @default(now())
+
+  post       Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@unique([postId, visitorId, viewedAt])
+  @@index([postId])
+  @@index([visitorId])
+  @@index([viewedAt])
+}
+
+// 文章阅读时长累计：按访客聚合总秒数，接口以增量方式上报
+model PostReadTime {
+  id         Int      @id @default(autoincrement())
+  postId     String
+  visitorId  String
+  seconds    Int      @default(0) // 累计阅读秒数
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  post       Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@unique([postId, visitorId])
+  @@index([postId])
+  @@index([visitorId])
+}
+
+// 片段点赞记录（匿名访客）
+model SnippetLike {
+  id         Int      @id @default(autoincrement())
+  snippetId  String
+  visitorId  String
+  createdAt  DateTime @default(now())
+
+  snippet    Snippet  @relation(fields: [snippetId], references: [id], onDelete: Cascade)
+
+  @@unique([snippetId, visitorId])
+  @@index([snippetId])
+  @@index([visitorId])
+}
+
+// 片段每日唯一浏览（UV）：每访客对同一片段每天只记一次
+model SnippetViewDaily {
+  id         Int      @id @default(autoincrement())
+  snippetId  String
+  visitorId  String
+  viewedAt   DateTime // 入库置当天 00:00:00
+  createdAt  DateTime @default(now())
+
+  snippet    Snippet  @relation(fields: [snippetId], references: [id], onDelete: Cascade)
+
+  @@unique([snippetId, visitorId, viewedAt])
+  @@index([snippetId])
+  @@index([visitorId])
+  @@index([viewedAt])
+}
+
+// 片段阅读时长累计：按访客聚合总秒数
+model SnippetReadTime {
+  id         Int      @id @default(autoincrement())
+  snippetId  String
+  visitorId  String
+  seconds    Int      @default(0)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  snippet    Snippet  @relation(fields: [snippetId], references: [id], onDelete: Cascade)
+
+  @@unique([snippetId, visitorId])
+  @@index([snippetId])
+  @@index([visitorId])
+}
+
+enum CommentStatus {
+  PUBLISHED  // 已发布
+  PENDING    // 待审核
+  REJECTED   // 已拒绝
+  DELETED    // 已删除
+}
+
+enum PhotoCategory {
+  SCENERY  // 风景
+  ANIMAL   // 动物
+  PERSON   // 人物
+  BUILDING // 建筑
+  FOOD     // 美食
+  TRAVEL   // 旅行
+  DAILY    // 日常
+  TECHNOLOGY // 科技
+  SPORTS   // 运动
+  OTHER    // 其他
+}
+
+// 相册
+model Photo {
+  id        Int       @id @default(autoincrement())
+  title     String
+  src       String    @db.Text // 支持JSON格式存储多图片URL，单图片直接存字符串
+  alt       String
+  description String  @db.Text
+  location  String
+  date      DateTime
+  tags      String    @db.Text // JSON格式存储标签数组
+  category  PhotoCategory
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@index([category])
+  @@index([date])
+}

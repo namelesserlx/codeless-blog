@@ -1,0 +1,27 @@
+/* 光标闪烁动画 */
+@keyframes blink {
+    0%,
+    100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+}
+
+.cursor {
+    margin-left: 0.25rem;
+    display: inline-block;
+    height: 1.25rem;
+    width: 0.25rem;
+    background-color: currentColor;
+    vertical-align: -0.1em;
+    animation: blink 1s step-end infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .cursor {
+        animation: none;
+        opacity: 1;
+    }
+}

@@ -1,0 +1,43 @@
+.searchContainer {
+    width: 100%;
+}
+.searchCard {
+    margin-bottom: 16px;
+    width: 100%;
+}
+
+.btnItem {
+    margin-left: auto !important;
+}
+
+.btnItemVertical {
+    margin-top: 16px;
+    margin-left: 0 !important;
+}
+
+:global {
+    .search-form {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+
+        .ant-form-item {
+            margin-right: 16px;
+            margin-bottom: 16px;
+
+            &:last-child {
+                margin-right: 0;
+            }
+        }
+    }
+
+    .search-form-vertical {
+        display: block;
+
+        .ant-form-item {
+            margin-right: 0;
+            margin-bottom: 0;
+        }
+    }
+}

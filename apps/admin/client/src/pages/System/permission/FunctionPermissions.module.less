@@ -1,0 +1,147 @@
+.container {
+    padding: 16px 0;
+}
+
+.toolbar {
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background: #fafafa;
+    border-radius: 6px;
+    border: 1px solid #f0f0f0;
+
+    .toolbarLeft {
+        display: flex;
+        gap: 8px;
+    }
+
+    .toolbarRight {
+        display: flex;
+        gap: 8px;
+    }
+}
+
+.permissionTable {
+    border: 1px solid #f0f0f0;
+    border-radius: 6px;
+
+    :global(.ant-table) {
+        background: #fff;
+    }
+
+    :global(.ant-table-thead > tr > th) {
+        background-color: #fafafa;
+        font-weight: 600;
+        border-bottom: 1px solid #f0f0f0;
+        padding: 12px 16px;
+    }
+
+    :global(.ant-table-tbody > tr > td) {
+        padding: 8px 16px;
+        border-bottom: 1px solid #f5f5f5;
+    }
+
+    :global(.ant-table-tbody > tr:hover > td) {
+        background-color: #f5f5f5;
+    }
+
+    :global(.ant-table-row) {
+        cursor: pointer;
+    }
+}
+
+.tableHeader {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    .headerText {
+        font-size: 14px;
+        font-weight: 600;
+        color: #262626;
+    }
+}
+
+.menuCell {
+    display: flex;
+    align-items: center;
+    min-height: 32px;
+}
+
+.expandBtn {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 4px;
+}
+
+.expandButton {
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #8c8c8c;
+    border-radius: 2px;
+
+    &:hover {
+        color: #1890ff;
+        background: #f0f9ff;
+    }
+
+    :global(.anticon) {
+        font-size: 10px;
+    }
+}
+
+.expandPlaceholder {
+    width: 20px;
+    height: 20px;
+}
+
+.checkbox {
+    margin-right: 8px;
+
+    :global(.ant-checkbox) {
+        transform: scale(0.9);
+    }
+}
+
+.menuIcon {
+    margin-right: 8px;
+    font-size: 14px;
+
+    &.folder {
+        color: #1890ff;
+    }
+
+    &.file {
+        color: #52c41a;
+    }
+}
+
+.menuName {
+    font-size: 14px;
+    font-weight: 500;
+    color: #262626;
+    line-height: 1.4;
+}
+
+.permissionTags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+
+    :global(.ant-tag) {
+        margin: 0;
+        font-size: 11px;
+        padding: 1px 6px;
+        border-radius: 3px;
+        line-height: 18px;
+    }
+}

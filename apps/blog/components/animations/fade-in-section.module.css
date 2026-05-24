@@ -1,0 +1,73 @@
+/* 多方向滑入动画 */
+@keyframes slideLeft {
+    0% {
+        transform: translateX(-30px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideRight {
+    0% {
+        transform: translateX(30px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    0% {
+        transform: translateY(30px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideDown {
+    0% {
+        transform: translateY(-30px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.base {
+    opacity: 0;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-out;
+}
+
+.slideLeft {
+    animation-name: slideLeft;
+}
+
+.slideRight {
+    animation-name: slideRight;
+}
+
+.slideUp {
+    animation-name: slideUp;
+}
+
+.slideDown {
+    animation-name: slideDown;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .base {
+        opacity: 1;
+        animation: none;
+    }
+}

@@ -1,0 +1,47 @@
+@keyframes tags-scroll-right {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100vw);
+    }
+}
+
+@keyframes tags-scroll-left {
+    0% {
+        transform: translateX(100vw);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+.animate-scroll-right {
+    animation: tags-scroll-right 30s linear infinite;
+}
+
+.animate-scroll-left {
+    animation: tags-scroll-left 25s linear infinite;
+}
+
+.animate-scroll-right-slow {
+    animation: tags-scroll-right 35s linear infinite;
+}
+
+.animate-scroll-left-medium {
+    animation: tags-scroll-left 20s linear infinite;
+}
+
+.animate-scroll-right-fast {
+    animation: tags-scroll-right 15s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .animate-scroll-right,
+    .animate-scroll-left,
+    .animate-scroll-right-slow,
+    .animate-scroll-left-medium,
+    .animate-scroll-right-fast {
+        animation: none !important;
+    }
+}

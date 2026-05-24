@@ -1,0 +1,60 @@
+{
+    "name": "@blog/shared",
+    "version": "1.0.0",
+    "private": true,
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "default": "./dist/index.js"
+        },
+        "./auth": {
+            "types": "./dist/auth.d.ts",
+            "default": "./dist/auth.js"
+        },
+        "./blog": {
+            "types": "./dist/blog.d.ts",
+            "default": "./dist/blog.js"
+        },
+        "./dashboard": {
+            "types": "./dist/dashboard.d.ts",
+            "default": "./dist/dashboard.js"
+        },
+        "./rbac": {
+            "types": "./dist/rbac.d.ts",
+            "default": "./dist/rbac.js"
+        },
+        "./env": {
+            "types": "./dist/env/index.d.ts",
+            "default": "./dist/env/index.js"
+        },
+        "./response": {
+            "types": "./dist/response.d.ts",
+            "default": "./dist/response.js"
+        },
+        "./system": {
+            "types": "./dist/system.d.ts",
+            "default": "./dist/system.js"
+        },
+        "./utils": {
+            "types": "./dist/utils/index.d.ts",
+            "default": "./dist/utils/index.js"
+        }
+    },
+    "scripts": {
+        "clean": "rm -rf dist",
+        "build": "pnpm clean && tsc",
+        "dev": "tsc -w"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "ua-parser-js": "^2.0.4"
+    },
+    "devDependencies": {
+        "@types/ua-parser-js": "^0.7.39",
+        "typescript": "^5.8.3"
+    }
+}

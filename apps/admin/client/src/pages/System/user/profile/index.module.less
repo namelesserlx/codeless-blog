@@ -1,0 +1,175 @@
+.profileContainer {
+    width: 100%;
+    display: flex;
+    gap: 20px;
+}
+
+.basicInfo {
+    width: 330px;
+    height: 700px;
+}
+
+.right {
+    width: calc(100% - 350px);
+    height: 650px;
+}
+
+.baseInfoSection {
+    .avatarWrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .avatarUpload {
+            margin-bottom: 16px;
+
+            :global(.ant-upload) {
+                width: 120px;
+                height: 120px;
+                border-radius: 50%;
+                overflow: hidden;
+                border: 1px dashed #d9d9d9;
+                &:hover {
+                    border-color: #1890ff;
+                }
+            }
+        }
+
+        .uploadText {
+            color: rgba(0, 0, 0, 0.45);
+            font-size: 14px;
+        }
+    }
+
+    .nickname {
+        font-size: 20px;
+        font-weight: 500;
+        color: rgba(0, 0, 0, 0.45);
+    }
+    .editIcon {
+        margin-left: 10px;
+        color: rgba(0, 0, 0, 0.45);
+        cursor: pointer;
+    }
+
+    .infoSection {
+        flex: 1;
+        margin: 0 20px;
+        .infoList {
+            padding-top: 24px;
+
+            .infoItem {
+                display: flex;
+                margin-bottom: 16px;
+                line-height: 22px;
+
+                &:last-child {
+                    margin-bottom: 0;
+                }
+
+                .infoLabel {
+                    width: 100px;
+                    text-align: left;
+                    color: rgba(0, 0, 0, 0.65);
+                    // margin-right: 30px;
+                    flex-shrink: 0;
+                    > span {
+                        margin-right: 5px;
+                    }
+                }
+
+                .infoValue {
+                    color: rgba(0, 0, 0, 0.85);
+                    flex: 1;
+                }
+            }
+        }
+    }
+}
+
+.securityList {
+    .securityItem {
+        display: flex;
+        padding: 16px 0;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #f0f0f0;
+
+        &:first-child {
+            padding-top: 0;
+        }
+
+        &:last-child {
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .securityInfo {
+            .securityTitle {
+                font-size: 14px;
+                color: rgba(0, 0, 0, 0.85);
+                margin-bottom: 4px;
+                font-weight: 500;
+            }
+
+            .securityDesc {
+                font-size: 14px;
+                color: rgba(0, 0, 0, 0.65);
+            }
+        }
+
+        .securityAction {
+            flex-shrink: 0;
+        }
+    }
+}
+.thirdPartyCard {
+    margin-top: 20px;
+    .thirdPartyList {
+        .thirdPartyItem {
+            display: flex;
+            padding: 16px 0;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #f0f0f0;
+
+            &:first-child {
+                padding-top: 0;
+            }
+
+            &:last-child {
+                padding-bottom: 0;
+                border-bottom: none;
+            }
+
+            .platformInfo {
+                display: flex;
+                align-items: center;
+
+                .platformIcon {
+                    font-size: 24px;
+                    color: rgba(0, 0, 0, 0.65);
+                    margin-right: 12px;
+                }
+
+                .platformName {
+                    font-size: 14px;
+                    color: rgba(0, 0, 0, 0.85);
+                }
+            }
+
+            .platformStatus {
+                display: flex;
+                align-items: center;
+
+                .statusText {
+                    margin-right: 16px;
+                }
+
+                .statusAction {
+                    min-width: 70px;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,113 @@
+/* ==========================================================================
+   编辑器主题色覆盖：对齐 Blog 主色 sky-500 (#0ea5e9)
+   ========================================================================== */
+
+.readonlyArticle {
+    /* Light mode */
+    --nlx-color-primary: #0ea5e9;
+    --nlx-color-primary-hover: #0284c7;
+    --nlx-color-primary-soft: #e0f2fe;
+    --nlx-color-primary-soft-hover: #bae6fd;
+    --nlx-focus-ring: 0 0 0 3px rgb(14 165 233 / 20%);
+
+    /* 引用块竖线颜色显式覆盖，避免 CSS 变量链解析问题 */
+    --nlx-blockquote-border: #0ea5e9;
+}
+
+.readonlyArticle.nlx-editor-theme-dark {
+    /* Dark mode: 稍提亮以保证暗背景上的可见性 */
+    --nlx-color-primary: #38bdf8;
+    --nlx-color-primary-hover: #7dd3fc;
+    --nlx-color-primary-soft: rgb(56 189 248 / 15%);
+    --nlx-color-primary-soft-hover: rgb(56 189 248 / 25%);
+    --nlx-focus-ring: 0 0 0 3px rgb(56 189 248 / 30%);
+
+    /* 引用块竖线 */
+    --nlx-blockquote-border: #38bdf8;
+}
+
+/* ========================================================================== */
+
+.readonlyWrapper {
+    min-width: 0;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.readonlyArticle {
+    min-width: 0;
+    width: 100%;
+}
+
+.readonlyEditor {
+    height: auto !important;
+    min-width: 0;
+    width: 100%;
+    font-family: inherit !important;
+}
+
+/* 覆盖编辑态专属样式 */
+.readonlyEditorContent,
+.readonlyEditorContent [data-nameless-editor-content='true'] {
+    border: 0 !important;
+    border-radius: 0 !important;
+    padding: 12px 0 !important;
+    margin-bottom: 0 !important;
+    height: auto !important;
+    min-height: 0 !important;
+    min-width: 0;
+    width: 100%;
+    overflow-x: hidden;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+.readonlyEditorContent:focus-within,
+.readonlyEditorContent [data-nameless-editor-content='true']:focus-within {
+    border-color: transparent !important;
+    box-shadow: none !important;
+}
+
+/* 文章配色 */
+.readonlyEditorContent {
+    color: var(--color-gray-700);
+}
+
+:global(.dark) .readonlyEditorContent {
+    color: var(--color-gray-300);
+}
+
+/* ── 列表：确保序号和分点可见 ──────────────────────────────────── */
+.readonlyEditorContent :global(ul),
+.readonlyEditorContent :global(ol) {
+    list-style-position: outside;
+    padding-inline-start: 1.5em !important;
+}
+
+.readonlyEditorContent :global(ul) {
+    list-style-type: disc;
+}
+
+.readonlyEditorContent :global(ol) {
+    list-style-type: decimal;
+}
+
+.readonlyEditorContent :global(li) {
+    display: list-item;
+}
+
+/* ── 图片圆角 + 阴影 ──────────────────────────────────────────── */
+.readonlyEditorContent :global(img) {
+    border-radius: 16px;
+    box-shadow: 0 22px 50px -35px rgba(15, 23, 42, 0.6);
+}
+
+/* ── 代码块滚动 ────────────────────────────────────────────────── */
+.readonlyEditorContent :global(pre) {
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+.readonlyEditorContent :global(pre code) {
+    white-space: pre;
+}

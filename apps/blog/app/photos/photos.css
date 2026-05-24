@@ -1,0 +1,113 @@
+@keyframes photo-fade-in-up {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in-up {
+    animation: photo-fade-in-up 0.45s ease-out forwards;
+}
+
+.swiper-pagination {
+    bottom: 60px !important;
+}
+
+.swiper-pagination-bullet {
+    width: 8px;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.5);
+    opacity: 1;
+    transition:
+        background-color 0.3s ease,
+        transform 0.3s ease;
+}
+
+.swiper-pagination-bullet-active-custom {
+    background: white !important;
+    transform: scale(1.25);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.swiper-pagination-bullet:hover {
+    background: rgba(255, 255, 255, 0.8);
+    transform: scale(1.1);
+}
+
+@keyframes photo-modal-fade-in {
+    0% {
+        opacity: 0;
+        backdrop-filter: blur(0px);
+    }
+    100% {
+        opacity: 1;
+        backdrop-filter: blur(4px);
+    }
+}
+
+@keyframes photo-modal-scale-in {
+    0% {
+        opacity: 0;
+        transform: scale(0.94) translateY(16px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@keyframes photo-modal-fade-out {
+    0% {
+        opacity: 1;
+        backdrop-filter: blur(4px);
+    }
+    100% {
+        opacity: 0;
+        backdrop-filter: blur(0px);
+    }
+}
+
+@keyframes photo-modal-scale-out {
+    0% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0.96) translateY(12px);
+    }
+}
+
+.modal-overlay-enter {
+    animation: photo-modal-fade-in 0.24s ease-out forwards;
+}
+
+.modal-content-enter {
+    animation: photo-modal-scale-in 0.24s ease-out forwards;
+}
+
+.modal-overlay-exit {
+    animation: photo-modal-fade-out 0.2s ease-in forwards;
+}
+
+.modal-content-exit {
+    animation: photo-modal-scale-out 0.2s ease-in forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .animate-fade-in-up,
+    .modal-overlay-enter,
+    .modal-content-enter,
+    .modal-overlay-exit,
+    .modal-content-exit {
+        animation: none !important;
+    }
+
+    .swiper-pagination-bullet:hover {
+        transform: none;
+    }
+}

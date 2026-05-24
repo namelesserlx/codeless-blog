@@ -1,0 +1,25 @@
+{
+    "name": "@blog/config",
+    "version": "0.0.0",
+    "private": true,
+    "exports": {
+        "./eslint-preset": "./eslint-preset.js",
+        "./prettier-config": "./prettier-config.mjs",
+        "./typescript/base": "./typescript/base.json"
+    },
+    "files": ["eslint-preset.js", "prettier-config.mjs", "typescript"],
+    "scripts": {
+        "check": "prettier --check eslint-preset.js prettier-config.mjs \"typescript/**/*.json\""
+    },
+    "dependencies": {},
+    "devDependencies": {
+        "@eslint/js": "^9.39.4",
+        "eslint": "^9.39.4",
+        "eslint-config-next": "^16.2.2",
+        "eslint-config-prettier": "^10.1.8",
+        "globals": "^16.4.0",
+        "prettier": "^3.5.3",
+        "prettier-plugin-tailwindcss": "^0.6.11",
+        "typescript-eslint": "^8.58.0"
+    }
+}

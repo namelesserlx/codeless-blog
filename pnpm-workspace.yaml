@@ -1,0 +1,13 @@
+packages:
+  - apps/*
+  - packages/*
+  - apps/admin/client
+  - apps/admin/server
+ignoredBuiltDependencies:
+  - '@prisma/client'
+  - '@prisma/engines'
+  - '@tailwindcss/oxide'
+  - esbuild
+  - prisma
+  - sharp
+  - unrs-resolver

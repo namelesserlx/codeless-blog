@@ -1,0 +1,40 @@
+{
+    "name": "@blog/db",
+    "version": "0.0.1",
+    "private": true,
+    "main": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "scripts": {
+        "clean": "rm -rf dist",
+        "build": "pnpm clean && pnpm db:generate && tsc -p tsconfig.build.json",
+        "test": "vitest run --config vitest.config.ts",
+        "test:watch": "vitest --config vitest.config.ts",
+        "db:generate": "prisma generate",
+        "db:migrate:dev": "prisma migrate dev",
+        "db:migrate:deploy": "NODE_ENV=production prisma migrate deploy",
+        "db:push": "prisma db push",
+        "db:push:prod": "NODE_ENV=production prisma db push",
+        "db:seed": "pnpm --filter @blog/shared build && prisma db seed",
+        "db:seed:prod": "pnpm --filter @blog/shared build && NODE_ENV=production prisma db seed",
+        "db:studio": "prisma studio",
+        "db:studio:prod": "NODE_ENV=production prisma studio",
+        "db:reset": "prisma migrate reset --force",
+        "db:migrate:status": "prisma migrate status",
+        "db:migrate:resolve": "prisma migrate resolve"
+    },
+    "dependencies": {
+        "@blog/shared": "workspace:*",
+        "@prisma/adapter-mariadb": "^7.6.0",
+        "@prisma/client": "^7.6.0",
+        "bcryptjs": "^3.0.3",
+        "dotenv": "^17.2.3",
+        "mariadb": "^3.5.2"
+    },
+    "devDependencies": {
+        "@types/node": "^24.10.1",
+        "prisma": "^7.6.0",
+        "ts-node": "^10.9.2",
+        "tsx": "^4.20.6",
+        "typescript": "^5.9.3"
+    }
+}

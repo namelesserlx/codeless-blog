@@ -1,0 +1,165 @@
+FROM node:24-bookworm-slim AS node-base
+
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends openssl \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN corepack enable \
+    && corepack prepare pnpm@10.15.0 --activate
+
+FROM node-base AS workspace-deps
+
+WORKDIR /app
+
+ENV HUSKY=0
+
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml turbo.json .npmrc ./
+COPY apps/admin/server/package.json apps/admin/server/package.json
+COPY apps/admin/client/package.json apps/admin/client/package.json
+COPY apps/blog/package.json apps/blog/package.json
+COPY packages/config/package.json packages/config/package.json
+COPY packages/db/package.json packages/db/package.json
+COPY packages/shared/package.json packages/shared/package.json
+
+RUN --mount=type=cache,id=pnpm-store,target=/pnpm/store,sharing=locked \
+    pnpm install --store-dir /pnpm/store --frozen-lockfile --prefer-offline
+
+FROM node-base AS workspace-source
+
+WORKDIR /app
+
+ENV HUSKY=0
+
+COPY --from=workspace-deps /app/ ./
+COPY . .
+
+FROM workspace-source AS shared-build
+
+ENV NODE_ENV=production
+
+RUN pnpm --filter @blog/shared build
+
+FROM shared-build AS db-build
+
+ARG DATABASE_URL=mysql://blog:blog123456@127.0.0.1:3306/blog
+
+ENV DATABASE_URL="${DATABASE_URL}"
+
+RUN pnpm --filter @blog/db build
+
+FROM db-build AS admin-server-build
+
+RUN pnpm --filter @blog/server build
+
+FROM admin-server-build AS admin-server-tools
+
+WORKDIR /app
+
+ENV NODE_ENV=production
+
+FROM node:24-bookworm-slim AS admin-server-runner
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends openssl tini \
+    && rm -rf /var/lib/apt/lists/*
+
+ENV NODE_ENV=production
+ENV PORT=8000
+
+COPY --from=admin-server-build /app/node_modules /app/node_modules
+COPY --from=admin-server-build /app/apps/admin/server/package.json /app/apps/admin/server/package.json
+COPY --from=admin-server-build /app/apps/admin/server/dist /app/apps/admin/server/dist
+COPY --from=admin-server-build /app/apps/admin/server/node_modules /app/apps/admin/server/node_modules
+COPY --from=admin-server-build /app/packages/db/package.json /app/packages/db/package.json
+COPY --from=admin-server-build /app/packages/db/dist /app/packages/db/dist
+COPY --from=admin-server-build /app/packages/db/generated /app/packages/db/generated
+COPY --from=admin-server-build /app/packages/db/node_modules /app/packages/db/node_modules
+COPY --from=admin-server-build /app/packages/shared/package.json /app/packages/shared/package.json
+COPY --from=admin-server-build /app/packages/shared/dist /app/packages/shared/dist
+COPY --from=admin-server-build /app/packages/shared/node_modules /app/packages/shared/node_modules
+
+WORKDIR /app/apps/admin/server
+
+EXPOSE 8000
+
+ENTRYPOINT ["tini", "--"]
+CMD ["node", "dist/app.js"]
+
+FROM shared-build AS admin-client-build
+
+ENV NODE_ENV=production
+
+ARG VITE_GITHUB_ID
+ARG VITE_GOOGLE_ID
+ARG BLOG_PUBLIC_URL
+ARG ADMIN_PUBLIC_URL
+ARG API_PUBLIC_URL
+
+ENV VITE_GITHUB_ID="${VITE_GITHUB_ID}"
+ENV VITE_GOOGLE_ID="${VITE_GOOGLE_ID}"
+ENV BLOG_PUBLIC_URL="${BLOG_PUBLIC_URL}"
+ENV ADMIN_PUBLIC_URL="${ADMIN_PUBLIC_URL}"
+ENV API_PUBLIC_URL="${API_PUBLIC_URL}"
+
+RUN pnpm --filter @blog/client build
+
+FROM nginx:1.29-alpine AS admin-client-runner
+
+COPY apps/admin/client/nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=admin-client-build /app/apps/admin/client/dist /usr/share/nginx/html
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
+
+FROM db-build AS blog-build
+
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
+
+ARG BLOG_PUBLIC_URL
+ARG ADMIN_PUBLIC_URL
+ARG API_PUBLIC_URL
+ARG DATABASE_URL
+ARG GITHUB_TOKEN
+ARG NEXT_PUBLIC_GITHUB_CLIENT_ID
+ARG NEXT_PUBLIC_GOOGLE_CLIENT_ID
+ARG BLOG_BUILD_CACHE_BUSTER=static
+
+ENV BLOG_PUBLIC_URL="${BLOG_PUBLIC_URL}"
+ENV ADMIN_PUBLIC_URL="${ADMIN_PUBLIC_URL}"
+ENV API_PUBLIC_URL="${API_PUBLIC_URL}"
+ENV DATABASE_URL="${DATABASE_URL}"
+ENV GITHUB_TOKEN="${GITHUB_TOKEN}"
+ENV NEXT_PUBLIC_GITHUB_CLIENT_ID="${NEXT_PUBLIC_GITHUB_CLIENT_ID}"
+ENV NEXT_PUBLIC_GOOGLE_CLIENT_ID="${NEXT_PUBLIC_GOOGLE_CLIENT_ID}"
+
+RUN test -n "$BLOG_BUILD_CACHE_BUSTER" && pnpm --filter @blog/next build
+
+FROM node:24-bookworm-slim AS blog-runner
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends openssl \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV HOSTNAME=0.0.0.0
+ENV PORT=3000
+
+COPY --from=blog-build --chown=node:node /app/apps/blog/.next/standalone ./
+COPY --from=blog-build --chown=node:node /app/apps/blog/.next/static ./.next/static
+COPY --from=blog-build --chown=node:node /app/apps/blog/.next/static ./apps/blog/.next/static
+COPY --from=blog-build --chown=node:node /app/apps/blog/public ./public
+COPY --from=blog-build --chown=node:node /app/apps/blog/public ./apps/blog/public
+
+USER node
+
+EXPOSE 3000
+
+CMD ["sh", "-c", "node apps/blog/server.js 2>/dev/null || node server.js"]

@@ -1,0 +1,9 @@
+# PM2 Logs
+logs/*
+!logs/.gitkeep
+
+# Build directory
+dist/ 
+
+# Database backups
+backups/ 

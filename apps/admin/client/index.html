@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <link rel="icon" type="image/icon" sizes="32x32" href="/favicon-32x32.ico" />
+        <link rel="icon" type="image/icon" sizes="16x16" href="/favicon-16x16.ico" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>CodeLess's Blog-后台管理</title>
+        <style>
+            body {
+                margin: 0;
+                padding: 0;
+            }
+            .app-loading {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                background: #f0f2f5;
+                z-index: 9999;
+                opacity: 1;
+                transition: opacity 0.3s ease-in-out;
+            }
+
+            .app-loading.hide {
+                opacity: 0;
+            }
+
+            .app-loading-wrap {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                text-align: center;
+            }
+
+            .app-loading .app-loading-title {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 30px 0;
+            }
+
+            .app-loading .app-loading-title .title {
+                font-size: 24px;
+                font-weight: bold;
+                color: #1677ff;
+                margin-left: 12px;
+            }
+
+            .app-loading .app-loading-logo {
+                position: relative;
+                width: 80px;
+                height: 80px;
+                margin: 0 auto;
+            }
+
+            .app-loading .app-loading-logo .logo {
+                position: absolute;
+                top: 2px;
+                left: 2px;
+                width: calc(100% - 4px);
+                height: calc(100% - 4px);
+                border-radius: 50%;
+                background:
+                    #fff url('/logo.png') center/72% no-repeat;
+                box-shadow: 0 2px 8px rgba(22, 119, 255, 0.1);
+            }
+
+            .app-loading .app-loading-logo::before,
+            .app-loading .app-loading-logo::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                border-radius: 50%;
+                border: 2px solid transparent;
+                border-top-color: #1677ff;
+                animation: spin 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+            }
+
+            .app-loading .app-loading-logo::after {
+                border-width: 2px;
+                animation-duration: 0.8s;
+                animation-direction: reverse;
+            }
+
+            .app-loading .app-loading-desc {
+                margin-top: 12px;
+                font-size: 14px;
+                color: rgba(0, 0, 0, 0.45);
+                text-align: center;
+            }
+
+            @keyframes spin {
+                0% {
+                    transform: rotate(0deg);
+                }
+                100% {
+                    transform: rotate(360deg);
+                }
+            }
+
+            #root:not(:empty) + .app-loading {
+                display: none;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="root"></div>
+        <div class="app-loading">
+            <div class="app-loading-wrap">
+                <div class="app-loading-logo">
+                    <div class="logo"></div>
+                </div>
+                <div class="app-loading-title">
+                    <div class="title">CodeLess's Blog-后台管理</div>
+                </div>
+                <div class="app-loading-desc">正在加载资源，请稍候...</div>
+            </div>
+        </div>
+        <script type="module" src="/src/main.tsx"></script>
+    </body>
+</html>
