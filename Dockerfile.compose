@@ -1,4 +1,4 @@
-FROM node:24-bookworm-slim AS node-base
+FROM node:26-bookworm-slim AS node-base
 
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
@@ -60,7 +60,7 @@ WORKDIR /app
 
 ENV NODE_ENV=production
 
-FROM node:24-bookworm-slim AS admin-server-runner
+FROM node:26-bookworm-slim AS admin-server-runner
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends openssl tini \
@@ -139,7 +139,7 @@ ENV NEXT_PUBLIC_GOOGLE_CLIENT_ID="${NEXT_PUBLIC_GOOGLE_CLIENT_ID}"
 
 RUN test -n "$BLOG_BUILD_CACHE_BUSTER" && pnpm --filter @blog/next build
 
-FROM node:24-bookworm-slim AS blog-runner
+FROM node:26-bookworm-slim AS blog-runner
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends openssl \
